@@ -1,0 +1,3 @@
+.vagrant
+*.phar
+vagrant-symfony/vendor
