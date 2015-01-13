@@ -8,3 +8,4 @@
     - webserver
     - postgresql
     - symfony
+    - { role: webapp, when: APPNAME is defined }

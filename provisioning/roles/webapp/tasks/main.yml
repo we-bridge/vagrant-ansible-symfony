@@ -1,9 +1,9 @@
 ---
-# - name: initialize application
-#   command: chdir=/vagrant creates=/vagrant/{{ APPNAME }}/
-#     symfony new --no-interaction --quiet {{ APPNAME }}
+- name: initialize application
+  command: chdir=/vagrant creates=/vagrant/{{ APPNAME }}/
+    symfony new --no-interaction --quiet {{ APPNAME }}
 
-- name: Apache VirtualHost
+- name: add Apache VirtualHost
   template: src=files/{{ APPNAME }}.vhost dest=/etc/apache2/sites-available/{{ APPNAME }}.conf
   notify:
     reload Apache
