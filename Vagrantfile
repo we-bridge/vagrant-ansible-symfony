@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision :ansible do |ansible|
     ansible.playbook = 'provisioning/site.yml'
     ansible.extra_vars = {
+        APPNAME: 'vagrant-symfony',
         DBNAME: 'symfony',
         DBUSER: 'vagrant',
         DBPASSWORD: 'vagrant'

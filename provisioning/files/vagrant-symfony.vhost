@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+    ServerName      Symfony
+    DocumentRoot    "/vagrant/{{ APPNAME }}/web"
+    SetEnv          SYMFONY__DATABASE__USER {{ DBUSER }}
+    SetEnv          SYMFONY__DATABASE__PASSWORD {{ DBPASSWORD }}
+
+    <Directory "/vagrant/{{ APPNAME }}/web">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

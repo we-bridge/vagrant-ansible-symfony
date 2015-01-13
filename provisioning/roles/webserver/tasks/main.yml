@@ -10,3 +10,13 @@
   with_items:
     - apache2
     - cli
+
+- name: run Apache process under the 'vagrant' user
+  lineinfile: dest=/etc/apache2/envvars
+    regexp='export {{ item }}'
+    line='export {{ item }}=vagrant'
+  with_items:
+    - APACHE_RUN_USER
+    - APACHE_RUN_GROUP
+  notify:
+    reload Apache
