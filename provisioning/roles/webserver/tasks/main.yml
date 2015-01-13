@@ -6,7 +6,7 @@
   apt: name=php5,php5-curl,php5-pgsql,php5-xdebug
 
 - name: php.ini customization
-  copy: src=php-custom.ini dest=/etc/php5/{{item}}/conf.d/50-timezone.ini
+  copy: src=files/php-extra.ini dest=/etc/php5/{{item}}/conf.d/50-timezone.ini
   with_items:
     - apache2
     - cli
