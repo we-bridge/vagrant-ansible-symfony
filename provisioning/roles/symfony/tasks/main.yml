@@ -10,7 +10,7 @@
 - name: make framework installer executable
   file: path=/vagrant/symfony.phar mode='ugo+x'
 
-- name: symlink .phar files
+- name: symlink PHAR files
   file: src=/vagrant/{{item}}.phar dest=/usr/local/bin/{{item}} state=link
   with_items:
     - composer
