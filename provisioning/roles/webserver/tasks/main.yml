@@ -1,0 +1,12 @@
+---
+- name: Apache server
+  apt: name=apache2
+
+- name: PHP 5.x and extensions
+  apt: name=php5,php5-curl,php5-pgsql
+
+- name: php.ini customization
+  copy: src=php-custom.ini dest=/etc/php5/{{item}}/conf.d/50-timezone.ini
+  with_items:
+    - apache2
+    - cli

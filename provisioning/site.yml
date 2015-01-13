@@ -1,54 +1,10 @@
 ---
-- name: apply common configuration to all nodes
-  hosts: all
+- hosts: all
   sudo: yes
-  gather_facts: true
-  tasks:
-
-    - name: Apache server
-      apt: name=apache2
-
-    - name: PHP 5.x
-      apt: name=php5
-
-    - name: PHP config
-      copy: src=php-custom.ini dest=/etc/php5/{{item}}/conf.d/50-timezone.ini
-      with_items:
-        - apache2
-        - cli
-
-    - name: PHP Curl extention
-      apt: name=php5-curl
-
-    - name: PHP PostgreSQL PDO
-      apt: name=php5-pgsql
-
-    - name: PostgreSQL server
-      apt: name=postgresql-9.3
-
-    - name: setup PHP Composer
-      shell: creates=composer.phar chdir=/vagrant
-        curl -sS https://getcomposer.org/installer | php
-
-    - name: setup Symfony
-      shell: creates=symfony.phar chdir=/vagrant
-        curl -LsS http://symfony.com/installer > symfony.phar
-
-    - name: make Symfony installer executable
-      file: path=/vagrant/symfony.phar mode='ugo+x'
-
-    - name: symlink .phar files
-      file: src=/vagrant/{{item}}.phar dest=/usr/local/bin/{{item}} state=link
-      with_items:
-        - composer
-        - symfony
-
-    # - name: find application directories
-    #   shell: chdir=/vagrant
-    #     find * -maxdepth 1 -name composer.json -exec dirname {} \;
-    #   register: app_dirs
-
-    # - name: composer install PHP dependencies
-    #   composer: command=install working_dir=/vagrant/{{item}}
-    #   with_items:
-    #    app_dirs.stdout_lines
+  pre_tasks:
+    - name: update apt database
+      apt: update_cache=yes
+  roles:
+    - webserver
+    - postgresql
+    - symfony
