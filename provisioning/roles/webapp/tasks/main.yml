@@ -7,7 +7,7 @@
   copy: src=files/Symfony.gitignore dest=/vagrant/{{ APPNAME }}/.gitignore force=no
 
 - name: add Apache VirtualHost
-  template: src=files/{{ APPNAME }}.vhost dest=/etc/apache2/sites-available/{{ APPNAME }}.conf
+  template: src=files/apache2.vhost dest=/etc/apache2/sites-available/{{ APPNAME }}.conf
   notify:
     reload Apache
 
