@@ -1,0 +1,10 @@
+---
+- name: disable SSHd reverse DNS lookup
+  lineinfile: dest=/etc/ssh/sshd_config
+    regexp='^\s*#*\s*UseDNS'
+    line='UseDNS no'
+  notify:
+    restart SSH
+
+- include: apache.yml
+- include: hhvm.yml

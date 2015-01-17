@@ -1,0 +1,13 @@
+---
+- name: software-properties common components
+  apt: name=software-properties-common
+
+- name: APT add signing key
+  apt_key: url=http://dl.hhvm.com/conf/hhvm.gpg.key
+
+- name: APT add repository
+  apt_repository: repo="deb http://dl.hhvm.com/ubuntu trusty main"
+
+- name: APT install package
+  apt: name=hhvm
+
