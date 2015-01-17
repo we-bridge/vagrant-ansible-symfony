@@ -1,11 +1,14 @@
 <VirtualHost *:80>
     ServerName      Symfony
-    DocumentRoot    "/vagrant/{{ APPNAME }}/web"
+    DocumentRoot    "{{ APPWEBROOT }}"
     SetEnv          SYMFONY__DATABASE__USER {{ DBUSER }}
     SetEnv          SYMFONY__DATABASE__PASSWORD {{ DBPASSWORD }}
 
-    <Directory "/vagrant/{{ APPNAME }}/web">
+    ProxyPassMatch ^/(.+\.(hh|php)(/.*)?)$ fcgi://127.0.0.1:9000/{{ APPWEBROOT }}/$1
+
+    <Directory "{{ APPWEBROOT }}">
         AllowOverride All
         Require all granted
+
     </Directory>
 </VirtualHost>

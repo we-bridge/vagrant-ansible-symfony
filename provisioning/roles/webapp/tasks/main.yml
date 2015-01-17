@@ -1,24 +1,19 @@
 ---
+- debug: msg={{ APPDIR }}
 - name: initialize application
-  command: chdir=/vagrant creates=/vagrant/{{ APPNAME }}/
-    symfony new --no-interaction --quiet {{ APPNAME }}
+  command: creates={{ APPDIR }}/
+    symfony new --no-interaction --quiet {{ APPDIR }}
 
 - name: default gitignore
-  copy: src=files/Symfony.gitignore dest=/vagrant/{{ APPNAME }}/.gitignore force=no
+  copy: src=Symfony.gitignore dest={{ APPDIR }}/.gitignore force=no
 
-- name: add Apache VirtualHost
-  template: src=files/apache2.vhost dest=/etc/apache2/sites-available/{{ APPNAME }}.conf
+- name: add container - Apache VirtualHost
+  template: src=apache2.vhost.j2 dest=/etc/apache2/sites-available/{{ APPNAME }}.conf
   notify:
-    reload Apache
+    restart Apache
 
-- name: disable Apache default site
-  command: removes=/etc/apache2/sites-enabled/000-default.conf
-    a2dissite 000-default
-  notify:
-    reload Apache
-
-- name: enable Apache VirtualHost
+- name: enable container - Apache VirtualHost
   command: creates=/etc/apache2/sites-enabled/{{ APPNAME }}.conf
     a2ensite {{ APPNAME }}
   notify:
-    reload Apache
+    restart Apache

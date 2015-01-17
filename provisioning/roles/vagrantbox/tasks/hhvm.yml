@@ -1,6 +1,6 @@
 ---
 - name: php.ini customization
-  copy: src=files/php-hhvm.ini dest=/etc/hhvm/php.ini
+  copy: src=php.ini dest=/etc/hhvm/php.ini
   notify:
     restart HHVM
 
