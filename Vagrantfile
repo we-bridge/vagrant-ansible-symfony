@@ -1,6 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+## Define some app-specific stuff to be used later during provisioning: ##
+app_vars = {
+  # APPNAME: 'MyApplication',
+  DBNAME: 'symfony',
+  DBUSER: 'vagrant',
+  DBPASSWORD: 'vagrant'
+}
+# ansible_verbosity = 'vvvv'
+##########################################################################
+
 def host_box_is_unixy?
   (RUBY_PLATFORM !~ /cygwin|mswin|mingw|bccwin|wince|emx/)
 end
@@ -8,23 +18,18 @@ end
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
 
-  app_vars = {
-    # APPNAME: 'MyApplication',
-    DBNAME: 'symfony',
-    DBUSER: 'vagrant',
-    DBPASSWORD: 'vagrant'
-  }
-
+  verbosity_arg = if defined? ansible_verbosity then ansible_verbosity else '' end
   if host_box_is_unixy?
     share_type = "nfs"
     config.vm.provision :ansible do |ansible|
       ansible.playbook = 'provisioning/site.yml'
       ansible.extra_vars = app_vars
-      # ansible.verbose = 'vvvv'
+      ansible.verbose = verbosity_arg
     end
   else
     share_type = "smb"
     extra_vars_arg = '{' + app_vars.map{|k,v| '"' + k.to_s + '":"' + v.to_s + '"'}.join(',') + '}'
+
     config.vm.provision :shell, :inline => <<-END
 set -e
 if ! which ansible-playbook ; then
@@ -36,7 +41,7 @@ if ! which ansible-playbook ; then
   sudo apt-get -y install ansible
 fi
 PYTHONUNBUFFERED=1 ansible-playbook --connection=local -i "[default] $(hostname)," \\
---extra-vars='#{ extra_vars_arg }' -vv /vagrant/provisioning/site.yml
+--extra-vars='#{ extra_vars_arg }' #{ verbosity_arg.empty? ? '' : '-'+ansible_verbosity } /vagrant/provisioning/site.yml
 END
   end
 
