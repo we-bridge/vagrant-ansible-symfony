@@ -11,3 +11,4 @@
 - name: APT install package
   apt: name=hhvm
 
+- include: pdo_psql.yml
