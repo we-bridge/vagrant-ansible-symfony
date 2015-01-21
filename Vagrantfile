@@ -20,14 +20,14 @@ Vagrant.configure(2) do |config|
 
   verbosity_arg = if defined? ansible_verbosity then ansible_verbosity else '' end
   if host_box_is_unixy?
-    share_type = "nfs"
+    config.vm.synced_folder "./", "/vagrant", type: "nfs"
     config.vm.provision :ansible do |ansible|
       ansible.playbook = 'provisioning/site.yml'
       ansible.extra_vars = app_vars
       ansible.verbose = verbosity_arg
     end
   else
-    share_type = "smb"
+    config.vm.synced_folder "./", "/vagrant", type: "smb", mount_options: ['ip=192.168.50.1'] #host side of :private_network
     extra_vars_arg = '{' + app_vars.map{|k,v| '"' + k.to_s + '":"' + v.to_s + '"'}.join(',') + '}'
 
     config.vm.provision :shell, :inline => <<-END
@@ -48,6 +48,5 @@ END
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "private_network", ip: "192.168.50.4"
-  config.vm.synced_folder "./", "/vagrant", type: share_type
 
 end
