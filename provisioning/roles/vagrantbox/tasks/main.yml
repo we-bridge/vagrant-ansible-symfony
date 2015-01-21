@@ -6,5 +6,10 @@
   notify:
     restart SSH
 
-- include: apache.yml
-- include: hhvm.yml
+- name: probe for HHVM init
+  stat: /etc/init.d/hhvm
+  registers: hhvm
+
+- include: change_apache_owner.yml
+- include: change_hhvm_owner.yml
+  when: hhmv.stat.exists
