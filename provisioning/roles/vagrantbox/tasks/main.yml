@@ -7,9 +7,10 @@
     restart SSH
 
 - name: probe for HHVM init
-  stat: /etc/init.d/hhvm
-  registers: hhvm
+  stat: path=/etc/init.d/hhvm
+  register: hhvm
 
-- include: change_apache_owner.yml
-- include: change_hhvm_owner.yml
-  when: hhmv.stat.exists
+- include: vagrantify_apache.yml
+
+- include: vagrantify_hhvm.yml
+  when: hhvm.stat.exists

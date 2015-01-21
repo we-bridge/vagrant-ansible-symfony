@@ -1,10 +1,10 @@
 ---
-- name: php.ini customization
+- name: hhvm | php.ini customization
   copy: src=php.ini dest=/etc/hhvm/php.ini
   notify:
     restart HHVM
 
-- name: run process under the 'vagrant' user account
+- name: hhvm | run process under the 'vagrant' user account
   lineinfile: dest=/etc/init.d/hhvm
     regexp='^{{ item }}='
     line='{{ item }}="vagrant"'
