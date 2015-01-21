@@ -1,6 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+def host_box_can_run_ansible?
+  (RUBY_PLATFORM !~ /cygwin|mswin|mingw|bccwin|wince|emx/)
+end
+
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
 
@@ -11,16 +15,34 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder "./", "/vagrant", type: "nfs"
 
+  app_vars = {
+    # APPNAME: 'MyApplication',
+    DBNAME: 'symfony',
+    DBUSER: 'vagrant',
+    DBPASSWORD: 'vagrant'
+  }
 
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = 'provisioning/site.yml'
-    ansible.extra_vars = {
-        # APPNAME: 'MyApplication',
-        DBNAME: 'symfony',
-        DBUSER: 'vagrant',
-        DBPASSWORD: 'vagrant'
-    }
-    # ansible.verbose = 'vvvv'
+  if !host_box_can_run_ansible?
+    config.vm.provision :ansible do |ansible|
+      ansible.playbook = 'provisioning/site.yml'
+      ansible.extra_vars = app_vars
+      # ansible.verbose = 'vvvv'
+    end
+  else
+    extra_vars_arg = '{' + app_vars.map{|k,v| '"' + k.to_s + '":"' + v.to_s + '"'}.join(',') + '}'
+    config.vm.provision :shell, :inline => <<-END
+set -e
+if ! which -s ansible-playbook ; then
+  echo "Windows host environment: the devbox will install Ansible and self-provision itself" >&2
+  sudo apt-get update
+  sudo apt-get -y install python-software-properties
+  sudo add-apt-repository ppa:ansible/ansible
+  sudo apt-get update
+  sudo apt-get -y install ansible
+fi
+PYTHONUNBUFFERED=1 ansible-playbook --connection=local -i "[default] $(hostname)," \\
+--extra-vars='#{ extra_vars_arg }' -vv /vagrant/provisioning/site.yml
+END
   end
 
 end
