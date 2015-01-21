@@ -1,0 +1,5 @@
+---
+- name: initialize application
+  sudo_user: vagrant
+  command: creates={{ APPDIR }}/
+    symfony new --no-interaction --quiet /tmp/{{ APPDIR }}
