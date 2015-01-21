@@ -5,9 +5,9 @@
 - name: PHP 5.x and extensions
   apt: name={{ item }}
   with_items:
-    - libapache2-mod-php5
     - php5-cli
     - php5-curl
+    - php5-fpm
     - php5-pgsql
     - php5-xdebug
     - php5-intl
