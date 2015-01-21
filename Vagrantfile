@@ -27,7 +27,7 @@ Vagrant.configure(2) do |config|
     extra_vars_arg = '{' + app_vars.map{|k,v| '"' + k.to_s + '":"' + v.to_s + '"'}.join(',') + '}'
     config.vm.provision :shell, :inline => <<-END
 set -e
-if ! which -s ansible-playbook ; then
+if ! which ansible-playbook ; then
   echo "Windows host environment: the devbox will install Ansible and self-provision itself" >&2
   sudo apt-get update
   sudo apt-get -y install python-software-properties
