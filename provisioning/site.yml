@@ -15,7 +15,8 @@
   roles:
     - apache
     - postgresql
-    - hhvm
+    # - hhvm
+    - php
     - symfony
     - { role: webapp, when: APPNAME is defined }
     - vagrantbox
