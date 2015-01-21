@@ -1,14 +1,18 @@
 ---
+- name: (purge HHVM)
+  apt: name=hhvm state=absent
+
 - name: PHP 5.x and extensions
   apt: name={{ item }}
   with_items:
-    - php5
+    - libapache2-mod-php5
+    - php5-cli
     - php5-curl
     - php5-pgsql
     - php5-xdebug
     - php5-intl
   notify:
-    reload Apache
+    restart Apache
 
 - name: php.ini customization
   copy: src=php-extra.ini dest=/etc/php5/{{item}}/conf.d/90-extra.ini
@@ -16,14 +20,4 @@
     - apache2
     - cli
   notify:
-    reload Apache
-
-- name: run Apache process under the 'vagrant' user
-  lineinfile: dest=/etc/apache2/envvars
-    regexp='export {{ item }}'
-    line='export {{ item }}=vagrant'
-  with_items:
-    - APACHE_RUN_USER
-    - APACHE_RUN_GROUP
-  notify:
-    reload Apache
+    restart Apache
