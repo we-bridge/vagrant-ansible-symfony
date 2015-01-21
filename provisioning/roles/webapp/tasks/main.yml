@@ -1,8 +1,8 @@
 ---
 - name: initialize application
   sudo_user: vagrant
-  include: init_app_via_composer.yml
-  # include: init_app_via_installer.yml
+  # include: init_app_via_composer.yml
+  include: init_app_via_installer.yml
 
 - name: default gitignore
   copy: src=Symfony.gitignore dest={{ APPDIR }}/.gitignore force=no
