@@ -10,11 +10,7 @@
 
   pre_tasks:
     - name: check last APT update time
-      shell: echo $(( $(date +%s) - $(stat -c %Y /var/lib/apt/periodic/update-success-stamp) ))
-      register: apt_cache_age
-    - name: update apt database
-      apt: update_cache=yes
-      when: (apt_cache_age.stdout|int) > 86400
+      apt: update_cache=yes cache_valid_time=86400
 
   roles:
     - apache

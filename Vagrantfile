@@ -1,19 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-def host_box_can_run_ansible?
+def host_box_is_unixy?
   (RUBY_PLATFORM !~ /cygwin|mswin|mingw|bccwin|wince|emx/)
 end
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
-
-  config.vm.network "forwarded_port", guest: 8000, host: 8000
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  config.vm.network "private_network", ip: "192.168.50.4"
-
-  config.vm.synced_folder "./", "/vagrant", type: "nfs"
 
   app_vars = {
     # APPNAME: 'MyApplication',
@@ -22,13 +15,15 @@ Vagrant.configure(2) do |config|
     DBPASSWORD: 'vagrant'
   }
 
-  if !host_box_can_run_ansible?
+  if host_box_is_unixy?
+    share_type = "nfs"
     config.vm.provision :ansible do |ansible|
       ansible.playbook = 'provisioning/site.yml'
       ansible.extra_vars = app_vars
       # ansible.verbose = 'vvvv'
     end
   else
+    share_type = "smb"
     extra_vars_arg = '{' + app_vars.map{|k,v| '"' + k.to_s + '":"' + v.to_s + '"'}.join(',') + '}'
     config.vm.provision :shell, :inline => <<-END
 set -e
@@ -44,5 +39,10 @@ PYTHONUNBUFFERED=1 ansible-playbook --connection=local -i "[default] $(hostname)
 --extra-vars='#{ extra_vars_arg }' -vv /vagrant/provisioning/site.yml
 END
   end
+
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "private_network", ip: "192.168.50.4"
+  config.vm.synced_folder "./", "/vagrant", type: share_type
 
 end
