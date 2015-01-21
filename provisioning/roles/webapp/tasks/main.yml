@@ -2,8 +2,7 @@
 - debug: msg={{ APPDIR }}
 - name: initialize application
   command: creates={{ APPDIR }}/
-    /vagrant/composer.phar create-project --no-interaction --quiet symfony/framework-standard-edition {{ APPDIR }}
-  sudo_user: vagrant
+    symfony new --no-interaction --quiet {{ APPDIR }}
 
 - name: default gitignore
   copy: src=Symfony.gitignore dest={{ APPDIR }}/.gitignore force=no
