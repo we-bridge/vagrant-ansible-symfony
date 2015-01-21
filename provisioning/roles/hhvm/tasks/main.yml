@@ -1,4 +1,7 @@
 ---
+- name: (purge PHP5-)
+  apt: name=libapache2-mod-php5,php5-cli state=absent
+
 - name: software-properties common components
   apt: name=software-properties-common
 
