@@ -14,10 +14,10 @@
   notify:
     restart Apache
 
-- name: php.ini customization
-  copy: src=php-extra.ini dest=/etc/php5/{{item}}/conf.d/90-extra.ini
-  with_items:
-    - apache2
-    - cli
+- name: copy php.ini customizations
+  copy: src=php-extra.ini dest=/etc/php5/mods-available/extra.ini
+
+- name: enable php.ini customizations
+  command: php5enmod extra
   notify:
-    restart Apache
+    - restart PHP-FPM
