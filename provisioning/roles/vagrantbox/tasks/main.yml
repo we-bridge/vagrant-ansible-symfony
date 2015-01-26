@@ -3,6 +3,7 @@
   lineinfile: dest=/etc/ssh/sshd_config
     regexp='^\s*#*\s*UseDNS'
     line='UseDNS no'
+    insertafter=EOF
   notify:
     restart SSH
 
