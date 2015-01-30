@@ -15,3 +15,5 @@
 
 - include: vagrantify_hhvm.yml
   when: hhvm.stat.exists
+
+- include: vm_swapfile.yml
