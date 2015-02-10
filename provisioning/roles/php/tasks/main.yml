@@ -17,7 +17,7 @@
 - name: copy php.ini customizations
   copy: src=php-extra.ini dest=/etc/php5/mods-available/extra.ini
   notify:
-    - restart PHP-FPM
+    - restart PHP5-FPM
 
 - name: enable php.ini customizations
   command: creates=/etc/php5/fpm/conf.d/90-extra.ini
