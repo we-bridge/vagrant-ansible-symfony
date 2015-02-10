@@ -1,0 +1,5 @@
+---
+- name: php5-fpm | start application after the /vagrant share has become available
+  lineinfile: dest=/etc/init/php5-fpm.conf
+    regexp='^start on'
+    line='start on vagrant-mounted'
