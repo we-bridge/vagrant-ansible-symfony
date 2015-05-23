@@ -45,7 +45,6 @@ PYTHONUNBUFFERED=1 ansible-playbook --connection=local -i "[default] $(hostname)
 END
   end
 
-  config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "private_network", ip: "192.168.50.4"
 
