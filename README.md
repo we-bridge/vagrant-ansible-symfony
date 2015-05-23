@@ -1,5 +1,30 @@
+## Usage
 
-##Requirements
+You should already have [Vagrant](http://vagrantup.com/) installed.
+
+Then edit the VagrantFile to uncomment the application name part, to put your project very own name.
+After that simply run
+
+```bash
+vagrant up
+```
+
+Note: if you already have a service using the port 8080, or if you have already use this repository to create an other symfony2 project, you need to the Vagrantfile to chose an other port than 8080, then run `vagrant up`
+
+it will install, using Ansible for the provisionning: 
+
+  * Apache2
+  * php-fpm
+  * php-cli
+  * postgresql
+  * composer
+  * symfony2
+
+You can then go in your virtual machine using `vagrant ssh` and your project's files will be accessible in `/vagrant/your_application_name`. From there you can run composer to install any new additional dependencies you will add, or run the `php app/console ....` of symfony2.
+
+To open the website itself, you simply need to open `localhost:8080` (if you changed the port, of course replace 8080) in your browser.
+
+## Requirements
 
   * ansible > 1.6
 
@@ -12,3 +37,7 @@ add-apt-repository ppa:ansible/ansible
 apt-get update
 apt-get install ansible
 ```
+
+## Customization
+
+If you want to replace apache2, by say Nginx, or Postgresql by Mysql, you can still use this repository, and simply add an other role in the provisionning. Pull Request / Patches are welcome.
