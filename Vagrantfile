@@ -11,6 +11,9 @@ app_vars = {
 # ansible_verbosity = 'vvvv'
 ##########################################################################
 
+#Fix for people with strange locale settings
+ENV.keys.each {|k| k.start_with?('LC_') && ENV.delete(k)}
+
 def host_box_is_unixy?
   (RUBY_PLATFORM !~ /cygwin|mswin|mingw|bccwin|wince|emx/)
 end
