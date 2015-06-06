@@ -4,6 +4,11 @@
   # include: init_app_via_composer.yml
   include: init_app_via_installer.yml
 
+- name: allow vagrant host to access dev frontend controller
+  replace: dest={{ APPWEBROOT }}/app_dev.php
+    regexp="array\('127.0.0.1'"
+    replace="array('10.0.2.2', '127.0.0.1'"
+
 - name: default gitignore
   copy: src=Symfony.gitignore dest={{ APPDIR }}/.gitignore force=no
 
