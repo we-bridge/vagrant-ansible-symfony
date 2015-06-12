@@ -1,0 +1,9 @@
+---
+- name: MySQL server and client
+  apt: name=mysql-server,python-mysqldb
+
+- name: MySQL database init
+  mysql_db: name={{ DBNAME }}
+
+- name: MySQL database user
+  mysql_user: name={{ DBUSER }} password={{ DBPASSWORD }} priv={{ DBNAME }}.*:ALL

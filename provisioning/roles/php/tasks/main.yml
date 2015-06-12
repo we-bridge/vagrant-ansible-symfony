@@ -9,6 +9,7 @@
     - php5-curl
     - php5-fpm
     - php5-pgsql
+    - php5-mysql
     - php5-xdebug
     - php5-intl
   notify:
