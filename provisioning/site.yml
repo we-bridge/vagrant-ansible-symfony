@@ -15,7 +15,7 @@
 
   roles:
     - apache
-    - postgresql
+    - "{{ DBTYPE }}"
     # - hhvm
     - php
     - symfony

@@ -6,7 +6,8 @@ app_vars = {
   # APPNAME: 'MyApplication',
   DBNAME: 'symfony',
   DBUSER: 'vagrant',
-  DBPASSWORD: 'vagrant'
+  DBPASSWORD: 'vagrant',
+  DBTYPE: 'postgresql' # 'mysql' or 'postgresql'
 }
 # ansible_verbosity = 'vvvv'
 ##########################################################################
