@@ -5,6 +5,7 @@
   include: init_app_via_installer.yml
 
 - name: create parameters.yml based on parameters.yml.dist
+  sudo_user: vagrant
   command: creates={{ APPDIR }}/app/config/parameters.yml
     cp {{ APPDIR }}/app/config/parameters.yml.dist {{ APPDIR }}/app/config/parameters.yml
 
