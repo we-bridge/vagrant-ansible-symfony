@@ -4,6 +4,26 @@
   # include: init_app_via_composer.yml
   include: init_app_via_installer.yml
 
+- name: create parameters.yml based on parameters.yml.dist
+  sudo_user: vagrant
+  command: creates={{ APPDIR }}/app/config/parameters.yml
+    cp {{ APPDIR }}/app/config/parameters.yml.dist {{ APPDIR }}/app/config/parameters.yml
+
+- name: update parameters.yml database user
+  replace: > # see https://github.com/ansible/ansible/issues/2769
+    dest={{ APPDIR }}/app/config/parameters.yml
+    regexp="{{ item.key }}:.+$"
+    replace='{{ item.key }}: {{ item.value }}'
+  with_items:
+    - {key: database_user, value: "{{ DBUSER }}" }
+    - {key: database_password, value: "{{ DBPASSWORD }}"}
+
+- name: update config.yml with correct DB adapter
+  replace: >
+    dest={{ APPDIR }}/app/config/config.yml
+    regexp="(driver:\s+)pdo_.+$"
+    replace='\1{{ db_drivers[DBTYPE] }}'
+
 - name: allow vagrant host to access dev frontend controller
   replace: dest={{ APPWEBROOT }}/app_dev.php
     regexp="array\('127.0.0.1'"

@@ -2,7 +2,7 @@
 
 You should already have [Vagrant](http://vagrantup.com/) installed.
 
-Then edit the VagrantFile to uncomment the application name part, to put your project very own name.
+Then edit the Vagrantfile to uncomment the application name part, to put your project very own name.
 After that simply run
 
 ```bash
@@ -16,7 +16,7 @@ it will install, using Ansible for the provisionning:
   * Apache2
   * php-fpm
   * php-cli
-  * postgresql
+  * postgresql OR mysql server (depending on the `DBTYPE` variable declared in the Vagrantfile)
   * composer
   * symfony2
 
@@ -40,4 +40,4 @@ apt-get install ansible
 
 ## Customization
 
-If you want to replace apache2, by say Nginx, or Postgresql by Mysql, you can still use this repository, and simply add an other role in the provisionning. Pull Request / Patches are welcome.
+If you want to replace apache2, by say Nginx, you can still use this repository, and simply add an other role in the provisionning. Pull Request / Patches are welcome.

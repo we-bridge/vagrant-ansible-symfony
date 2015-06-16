@@ -1,0 +1,4 @@
+---
+db_drivers:
+  mysql: pdo_mysql
+  postgresql: pdo_pgsql
