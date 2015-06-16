@@ -28,6 +28,7 @@
   notify:
     restart Apache
 
-- name: pre-prime app cache (rDistributionBundle/Resources/bin/build_bootstrap.php)
-  command: creates={{ APPDIR }}/app/bootstrap.php.cache
-    php {{ APPDIR }}/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php
+- name: install app dependencies (composer install)
+  sudo_user: vagrant
+  command: creates={{ APPDIR }}/vendor/ chdir={{ APPDIR }}
+    composer install
