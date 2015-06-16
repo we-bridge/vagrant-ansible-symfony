@@ -4,6 +4,10 @@
   # include: init_app_via_composer.yml
   include: init_app_via_installer.yml
 
+- name: create parameters.yml based on parameters.yml.dist
+  command: creates={{ APPDIR }}/app/config/parameters.yml
+    cp {{ APPDIR }}/app/config/parameters.yml.dist {{ APPDIR }}/app/config/parameters.yml
+
 - name: update parameters.yml database user
   replace: > # see https://github.com/ansible/ansible/issues/2769
     dest={{ APPDIR }}/app/config/parameters.yml
