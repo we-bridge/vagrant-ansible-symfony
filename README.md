@@ -29,7 +29,7 @@ To open the website itself, you simply need to open `localhost:8080` (if you cha
 Using this template for starting a new Symfony webapp project from scratch, a typical workflow could resemble something like the following:
  1. Initialize a new empty git repo for your project, let's say it is at `http://gitlab.local/projects/my-app-repo.git/
  2. Clone it into a working copy, thereby setting it's `origin` remote: `cd ~/Projects/; git clone http://gitlab.local/projects/my-app-repo.git/; cd my-app-repo/`
- 3. Merge a remote branch originating from this template repo, e.g. `git remote add -t master github-base https://github.com/we-bridge/vagrant-ansible-symfony.git ; git fetch gh-base; git merge gh-base/master` or simply `git pull https://github.com/we-bridge/vagrant-ansible-symfony.git`
+ 3. Merge a remote branch originating from this template repo, e.g. `git remote add -t master gh-base https://github.com/we-bridge/vagrant-ansible-symfony.git ; git fetch gh-base; git merge gh-base/master` _or_ simply `git pull https://github.com/we-bridge/vagrant-ansible-symfony.git`
  4. (optional) If the previous commit log bothers you, replace it all with a single commit before doing anything else: `git reset $(git commit-tree HEAD^{tree} -m "Initialized from template")`
 
 ## Requirements
