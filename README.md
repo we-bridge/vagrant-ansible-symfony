@@ -24,6 +24,9 @@ You can then go in your virtual machine using `vagrant ssh` and your project's f
 
 To open the website itself, you simply need to open `localhost:8080` (if you changed the port, of course replace 8080) in your browser.
 
+### Checking out existing projects
+Usually `composer install` is run automatically during provisioning. However, if for some reason (network problems? Github API limits?) this step fails, your project will typically generate errors related to `PHP Fatal error:  require_once(): Failed opening required '(...)/app/bootstrap.php.cache'` etc, since the cache bootstrap file is built during composer's post-install step. If this happens, simply re-run either `vagrant provision` or `composer install` manually once to fix up these issues.
+
 ## Requirements
 
   * ansible > 1.6
