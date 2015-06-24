@@ -32,6 +32,9 @@ Using this template for starting a new Symfony webapp project from scratch, a ty
  3. Merge a remote branch originating from this template repo, e.g. `git remote add -t master gh-base https://github.com/we-bridge/vagrant-ansible-symfony.git ; git fetch gh-base; git merge gh-base/master` _or_ simply `git pull https://github.com/we-bridge/vagrant-ansible-symfony.git`
  4. (optional) If the previous commit log bothers you, replace it all with a single commit before doing anything else: `git reset $(git commit-tree HEAD^{tree} -m "Initialized from template")`
 
+### Checking out existing projects
+Usually `composer install` is run automatically during provisioning. However, if for some reason (network problems? Github API limits?) this step fails, your project will typically generate errors related to `PHP Fatal error:  require_once(): Failed opening required '(...)/app/bootstrap.php.cache'` etc, since the cache bootstrap file is built during composer's post-install step. If this happens, simply re-run either `vagrant provision` or `composer install` manually once to fix up these issues.
+
 ## Requirements
 
   * ansible > 1.6
