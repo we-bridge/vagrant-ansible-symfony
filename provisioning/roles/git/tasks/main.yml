@@ -1,0 +1,7 @@
+---
+- name: APT install Git
+  apt: name=git
+
+- name: Install Git completions for bash
+  shell: creates=/etc/bash_completion.d/git
+    curl -Ls https://github.com/git/git/raw/master/contrib/completion/git-completion.bash > /etc/bash_completion.d/git
