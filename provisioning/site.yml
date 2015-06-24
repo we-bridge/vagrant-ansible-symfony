@@ -21,3 +21,4 @@
     - symfony
     - { role: webapp, when: APPNAME is defined }
     - vagrantbox
+    - git
