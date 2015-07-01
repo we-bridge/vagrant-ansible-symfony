@@ -11,14 +11,13 @@ vagrant up
 
 Note: if you already have a service using the port 8080, or if you have already use this repository to create an other symfony2 project, you need to the Vagrantfile to chose an other port than 8080, then run `vagrant up`
 
-it will install, using Ansible for the provisionning: 
+The virtual machine will be automatically prepared ("provisioned", through [Ansible](http://docs.ansible.com/) "playbooks") in accordance with the "roles" defined in the `provisioning` directory:
 
-  * Apache2
-  * php-fpm
-  * php-cli
-  * postgresql OR mysql server (depending on the `DBTYPE` variable declared in the Vagrantfile)
-  * composer
-  * symfony2
+0. "apache", "php", "git", etc. installs and configures these system services.
+0. "postgresql" OR "mysql" (depending on the `DBTYPE` variable declared in the `Vagrantfile`) creates the database server and credentials
+0. "symfony" downloads the basic tools required to work with Symfony (-its installer) and PHP (-Composer, for dependency management).
+0. If APPNAME is set in the Vagrantfile, then "webapp" initializes a shiny new application in an eponymous directory. Also if APPNAME is set, "webapp-container" prepares the frontend web server (-a VirtualHost entry) and backend processes (-a FastCGI process group) for your application.
+0. Finally, "vagrantbox" just applies a few additional system-level optimizations to the virtual server.
 
 You can then go in your virtual machine using `vagrant ssh` and your project's files will be accessible in `/vagrant/your_application_name`. From there you can run composer to install any new additional dependencies you will add, or run the `php app/console ....` of symfony2.
 
