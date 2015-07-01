@@ -11,7 +11,7 @@ vagrant up
 
 Note: if you already have a service using the port 8080, or if you have already use this repository to create an other symfony2 project, you need to the Vagrantfile to chose an other port than 8080, then run `vagrant up`
 
-The virtual machine will be automatically prepared ("provisioned", through [Ansible](http://docs.ansible.com/]) "playbooks") in accordance with the "roles" defined in the `provisioning` directory:
+The virtual machine will be automatically prepared ("provisioned", through [Ansible](http://docs.ansible.com/) "playbooks") in accordance with the "roles" defined in the `provisioning` directory:
 
 0. "apache", "php", "git", etc. installs and configures these system services.
 0. "postgresql" OR "mysql" (depending on the `DBTYPE` variable declared in the `Vagrantfile`) creates the database server and credentials
