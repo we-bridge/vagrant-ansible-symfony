@@ -1,25 +1,26 @@
 ---
 - name: (purge HHVM)
   apt: name=hhvm state=absent
+  
+- name: add repository
+  apt_repository: repo='ppa:ondrej/php'
 
-- name: PHP 5.x and extensions
+- name: PHP 7.x and extensions
   apt: name={{ item }}
   with_items:
-    - php5-cli
-    - php5-curl
-    - php5-fpm
-    - php5-pgsql
-    - php5-mysql
-    - php5-xdebug
-    - php5-intl
+    - php7.0-cli
+    - php7.0-curl
+    - php7.0-fpm
+    - php7.0-pgsql
+    - php7.0-mysql
+    - php7.0-dev
+    - php7.0-intl
   notify:
     restart Apache
 
 - name: copy php.ini customizations
-  copy: src=php-extra.ini dest=/etc/php5/mods-available/extra.ini
+  copy: src=php-extra.ini dest=/etc/php/7.0/mods-available/extra.ini
   notify:
-    - restart PHP5-FPM
+    - restart PHP70-FPM
 
-- name: enable php.ini customizations
-  command: creates=/etc/php5/fpm/conf.d/90-extra.ini
-    php5enmod extra
+

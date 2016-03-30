@@ -16,7 +16,7 @@
 - include: vagrantify_hhvm.yml
   when: hhvm.stat.exists
 
-- include: vagrantify_php5-fpm.yml
+- include: vagrantify_php7-fpm.yml
   when: not hhvm.stat.exists
 
 - include: vm_swapfile.yml
